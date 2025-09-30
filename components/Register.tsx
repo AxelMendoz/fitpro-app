@@ -1,7 +1,7 @@
 "use client"
 
-import type React from "react"
 import { useState } from "react"
+import { supabase } from "@/lib/supabaseClient"
 
 interface RegisterData {
   nombre: string
@@ -35,24 +35,53 @@ export default function Register({ onRegister, onSwitchToLogin }: RegisterProps)
     }))
   }
 
+  // ✅ ESTA ES LA FUNCIÓN CORREGIDA
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const { nombre, email, password, edad, genero } = formData
 
-    const registerData: RegisterData = {
-      ...formData,
-      edad: Number.parseInt(formData.edad),
-      fecha_creacion: new Date().toISOString(),
+    try {
+      // 1️⃣ Se registra el usuario y se pasan los datos del perfil en 'options.data'
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          // El trigger en la base de datos leerá esta información
+          data: {
+            nombre,
+            edad: Number(edad), // Aseguramos que la edad sea un número
+            genero,
+          },
+        },
+      })
+
+      if (error) {
+        throw error // Si hay un error, lo enviamos al bloque catch
+      }
+
+      // 2️⃣ ¡Listo! Ya no se necesita el ".insert()" manual.
+      // El trigger se encarga de todo en el backend. 🚀
+      alert("Registro exitoso ✅ Revisa tu correo para confirmar tu cuenta.")
+
+      if (onRegister && data.user) {
+        onRegister({
+          nombre,
+          email,
+          password,
+          edad: Number(edad),
+          genero,
+          fecha_creacion: data.user.created_at,
+        })
+      }
+    } catch (error: any) {
+      // Un único lugar para manejar todos los errores
+      alert("Error en el registro: " + error.message)
+    } finally {
+      // Esto se ejecuta siempre, haya error o no
+      setIsLoading(false)
     }
-
-    if (onRegister) {
-      onRegister(registerData)
-    }
-
-    setIsLoading(false)
   }
 
   return (
