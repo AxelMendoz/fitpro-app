@@ -1,8 +1,7 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
+import { supabase } from "@/lib/supabaseClient"
 
 interface LoginProps {
   onLogin?: (email: string, password: string) => void
@@ -18,14 +17,28 @@ export default function Login({ onLogin, onSwitchToRegister }: LoginProps) {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (error) {
+      // Manejo de correo no confirmado
+      if (error.message.includes("email not confirmed")) {
+        alert("Tu correo no ha sido confirmado. Revisa tu bandeja de entrada.")
+      } else {
+        alert("Error: " + error.message)
+      }
+      setIsLoading(false)
+      return
+    }
+
+    alert("¡Bienvenido! Has iniciado sesión correctamente.")
+    setIsLoading(false)
 
     if (onLogin) {
       onLogin(email, password)
     }
-
-    setIsLoading(false)
   }
 
   return (
