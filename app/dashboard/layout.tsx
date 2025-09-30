@@ -1,15 +1,28 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabaseClient" // Asegúrate que esta ruta es correcta
 import "./dashboard.css"
+
+// Un componente simple para el mensaje de espera
+function PleaseConfirmEmail() {
+  return (
+    <div style={{ padding: "40px", textAlign: "center", height: "100vh", display: "grid", placeContent: "center" }}>
+      <h2>¡Casi listo!</h2>
+      <p>Te hemos enviado un correo de confirmación.</p>
+      <p>Por favor, revisa tu bandeja de entrada para activar tu cuenta y poder acceder.</p>
+    </div>
+  )
+}
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const pathname = usePathname()
+  const router = useRouter()
+  const [sessionStatus, setSessionStatus] = useState<"loading" | "unauthenticated" | "authenticated">("loading")
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: "📊" },
@@ -19,6 +32,43 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { href: "/dashboard/profile", label: "Perfil", icon: "👤" },
   ]
 
+  // --- LÓGICA DE SEGURIDAD AÑADIDA ---
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!session) {
+        router.push('/') // Si cierra sesión, lo mandamos al inicio
+        return
+      }
+
+      // Re-verificamos la sesión para obtener los datos más frescos del usuario
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push('/')
+      } else if (!user.email_confirmed_at) {
+        setSessionStatus("unauthenticated")
+      } else {
+        setSessionStatus("authenticated")
+      }
+    })
+
+    return () => {
+      subscription?.unsubscribe()
+    }
+  }, [router])
+  // --- FIN DE LA LÓGICA DE SEGURIDAD ---
+
+  // --- RENDERIZADO CONDICIONAL ---
+  if (sessionStatus === "loading") {
+    return <div>Cargando...</div> // Muestra esto mientras se verifica la sesión
+  }
+
+  if (sessionStatus === "unauthenticated") {
+    return <PleaseConfirmEmail /> // Muestra el mensaje de "confirma tu correo"
+  }
+  // --- FIN DEL RENDERIZADO CONDICIONAL ---
+
+
+  // Si todo está bien (sesión autenticada), muestra tu layout original
   return (
     <div className="dashboard-layout">
       <aside className={`sidebar ${isSidebarOpen ? "open" : "closed"}`}>
@@ -47,9 +97,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <header className="dashboard-header">
           <h1 className="dashboard-title">Bienvenido a FitPro</h1>
           <div className="header-actions">
-            <Link href="/" className="btn-secondary">
+            <button onClick={() => supabase.auth.signOut()} className="btn-secondary">
               Salir
-            </Link>
+            </button>
           </div>
         </header>
         <div className="dashboard-content">{children}</div>

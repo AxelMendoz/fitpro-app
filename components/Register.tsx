@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { supabase } from "@/lib/supabaseClient"
+import { FaDumbbell } from "react-icons/fa"
 
 interface RegisterData {
   nombre: string
@@ -89,9 +90,9 @@ export default function Register({ onRegister, onSwitchToLogin }: RegisterProps)
       <div className="login-card">
         <div className="login-header">
           <div className="logo">
-            <div className="logo-icon">💪</div>
-            <h1>FitPro</h1>
-          </div>
+            <FaDumbbell size={32} color="rgb(var(--accent))" />         
+              <span className="logo-text">FitPro</span>
+            </div>
           <p className="login-subtitle">Únete a la comunidad fitness</p>
         </div>
 
