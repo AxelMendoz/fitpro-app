@@ -1,0 +1,56 @@
+/* src/app/dashboard/nutrition/nutrition.css */
+.nutrition-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nutrition-controls {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.strategy-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.strategy-btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.strategy-btn.active {
+  background-color: #2563eb; /* blue-600 */
+  color: white;
+  border-color: #2563eb;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.result-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.calories-display {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2563eb;
+  margin: 1rem 0;
+}

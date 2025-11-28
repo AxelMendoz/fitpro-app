@@ -165,3 +165,60 @@ export const mockRoutines: Routine[] = [
     ejercicios: [2, 5, 6, 8],
   },
 ]
+
+// --- PEGAR ESTO AL FINAL DE TU ARCHIVO mock-data.ts ---
+
+export const MOCK_WEEKLY_DATA = [
+  { day: "Lun", workouts: 2, duration: 90 },
+  { day: "Mar", workouts: 1, duration: 45 },
+  { day: "Mié", workouts: 0, duration: 0 },
+  { day: "Jue", workouts: 2, duration: 80 },
+  { day: "Vie", workouts: 1, duration: 60 },
+  { day: "Sáb", workouts: 1, duration: 50 },
+  { day: "Dom", workouts: 0, duration: 0 },
+];
+
+export const MOCK_MONTHLY_STATS = [
+  { label: "Entrenamientos Completados", value: 24, change: "+12%", icon: "✅" },
+  { label: "Tiempo Total", value: "18.5h", change: "+8%", icon: "⏱️" },
+  { label: "Calorías Quemadas", value: "3,240", change: "+15%", icon: "🔥" },
+  { label: "Racha Actual", value: "5 días", change: "+2", icon: "⚡" },
+];
+
+export const MOCK_RECENT_WORKOUTS = [
+  {
+    date: "2024-01-15",
+    routine: "Pecho y Tríceps",
+    duration: 45,
+    exercises: 6,
+    calories: 320,
+  },
+  {
+    date: "2024-01-14",
+    routine: "Piernas",
+    duration: 60,
+    exercises: 8,
+    calories: 450,
+  },
+  {
+    date: "2024-01-13",
+    routine: "Espalda y Bíceps",
+    duration: 50,
+    exercises: 7,
+    calories: 380,
+  },
+  {
+    date: "2024-01-12",
+    routine: "Cardio HIIT",
+    duration: 30,
+    exercises: 5,
+    calories: 280,
+  },
+];
+
+export const MOCK_BODY_METRICS = [
+  { label: "Peso", current: "75 kg", previous: "77 kg", change: "-2 kg" },
+  { label: "IMC", current: "23.5", previous: "24.1", change: "-0.6" },
+  { label: "Grasa Corporal", current: "18%", previous: "20%", change: "-2%" },
+  { label: "Masa Muscular", current: "62 kg", previous: "60 kg", change: "+2 kg" },
+];

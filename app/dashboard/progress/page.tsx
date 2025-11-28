@@ -1,67 +1,23 @@
+// src/app/dashboard/progress/page.tsx
 "use client"
+import "./progress.css" // Mantenemos tus estilos
 
-import { useState } from "react"
-import "./progress.css"
+// 1. Importamos el "Cerebro" (Hook) y el Componente (Vista)
+import { useProgressData } from "../../../hooks/use.progressdata"
+import { WeeklyActivityChart } from "../../../components/progress/WeeklyActivityChart"
 
 export default function ProgressPage() {
-  const [selectedPeriod, setSelectedPeriod] = useState<"week" | "month" | "year">("week")
-
-  const weeklyData = [
-    { day: "Lun", workouts: 2, duration: 90 },
-    { day: "Mar", workouts: 1, duration: 45 },
-    { day: "Mié", workouts: 0, duration: 0 },
-    { day: "Jue", workouts: 2, duration: 80 },
-    { day: "Vie", workouts: 1, duration: 60 },
-    { day: "Sáb", workouts: 1, duration: 50 },
-    { day: "Dom", workouts: 0, duration: 0 },
-  ]
-
-  const monthlyStats = [
-    { label: "Entrenamientos Completados", value: 24, change: "+12%", icon: "✅" },
-    { label: "Tiempo Total", value: "18.5h", change: "+8%", icon: "⏱️" },
-    { label: "Calorías Quemadas", value: "3,240", change: "+15%", icon: "🔥" },
-    { label: "Racha Actual", value: "5 días", change: "+2", icon: "⚡" },
-  ]
-
-  const recentWorkouts = [
-    {
-      date: "2024-01-15",
-      routine: "Pecho y Tríceps",
-      duration: 45,
-      exercises: 6,
-      calories: 320,
-    },
-    {
-      date: "2024-01-14",
-      routine: "Piernas",
-      duration: 60,
-      exercises: 8,
-      calories: 450,
-    },
-    {
-      date: "2024-01-13",
-      routine: "Espalda y Bíceps",
-      duration: 50,
-      exercises: 7,
-      calories: 380,
-    },
-    {
-      date: "2024-01-12",
-      routine: "Cardio HIIT",
-      duration: 30,
-      exercises: 5,
-      calories: 280,
-    },
-  ]
-
-  const bodyMetrics = [
-    { label: "Peso", current: "75 kg", previous: "77 kg", change: "-2 kg" },
-    { label: "IMC", current: "23.5", previous: "24.1", change: "-0.6" },
-    { label: "Grasa Corporal", current: "18%", previous: "20%", change: "-2%" },
-    { label: "Masa Muscular", current: "62 kg", previous: "60 kg", change: "+2 kg" },
-  ]
-
-  const maxDuration = Math.max(...weeklyData.map((d) => d.duration))
+  // 2. Usamos el Hook para obtener datos y lógica
+  // Ya no hay arrays fijos ni cálculos matemáticos aquí. ¡Todo viene limpio!
+  const { 
+    selectedPeriod, 
+    setSelectedPeriod, 
+    weeklyData, 
+    maxDuration,
+    monthlyStats,
+    bodyMetrics,
+    recentWorkouts 
+  } = useProgressData();
 
   return (
     <div className="progress-page">
@@ -70,6 +26,8 @@ export default function ProgressPage() {
           <h1 className="page-title">Mi Progreso</h1>
           <p className="page-description">Visualiza tu evolución y mantente motivado</p>
         </div>
+        
+        {/* Selector de periodo */}
         <div className="period-selector">
           <button
             className={`period-btn ${selectedPeriod === "week" ? "active" : ""}`}
@@ -92,6 +50,7 @@ export default function ProgressPage() {
         </div>
       </div>
 
+      {/* Grid de Estadísticas (Ahora usa los datos del hook) */}
       <div className="stats-grid">
         {monthlyStats.map((stat, index) => (
           <div key={index} className="stat-card">
@@ -106,31 +65,10 @@ export default function ProgressPage() {
       </div>
 
       <div className="progress-grid">
-        <div className="card">
-          <div className="card-header">
-            <h2 className="card-title">Actividad Semanal</h2>
-            <span className="card-subtitle">Entrenamientos por día</span>
-          </div>
-          <div className="weekly-chart">
-            {weeklyData.map((day, index) => (
-              <div key={index} className="chart-column">
-                <div className="chart-bar-container">
-                  <div
-                    className="chart-bar"
-                    style={{
-                      height: day.duration > 0 ? `${(day.duration / maxDuration) * 100}%` : "4px",
-                    }}
-                  >
-                    {day.duration > 0 && <span className="bar-tooltip">{day.duration} min</span>}
-                  </div>
-                </div>
-                <div className="chart-label">{day.day}</div>
-                <div className="chart-count">{day.workouts > 0 ? day.workouts : "-"}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* 3. Aquí usamos el Componente Extraído (Alta Cohesión) */}
+        <WeeklyActivityChart data={weeklyData} maxDuration={maxDuration} />
 
+        {/* Métricas Corporales */}
         <div className="card">
           <div className="card-header">
             <h2 className="card-title">Métricas Corporales</h2>
@@ -155,6 +93,7 @@ export default function ProgressPage() {
         </div>
       </div>
 
+      {/* Historial (Tabla) */}
       <div className="card">
         <div className="card-header">
           <h2 className="card-title">Historial de Entrenamientos</h2>

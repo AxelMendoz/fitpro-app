@@ -1,0 +1,69 @@
+/* src/app/dashboard/wearables/wearables.css */
+.wearables-page {
+  padding: 2rem;
+}
+
+.device-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.device-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.device-btn:hover {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+.device-status-panel {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.device-status-panel.connected {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.sync-btn {
+  background-color: #000;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.sync-btn:hover {
+  background-color: #374151;
+}
+
+.bpm-display {
+  margin-top: 1.5rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}

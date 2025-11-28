@@ -1,0 +1,131 @@
+/* src/app/dashboard/goals/goals.css */
+.goals-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.observer-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .observer-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.goals-panel {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.panel-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.goal-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.goal-btn:hover {
+  background-color: #f0fdf4; /* green-50 */
+  border-color: #86efac;     /* green-300 */
+  transform: translateX(4px);
+}
+
+.goal-text {
+  font-weight: 500;
+  color: #374151;
+}
+
+.action-badge {
+  background-color: #dcfce7;
+  color: #15803d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.2s;
+}
+
+.goal-btn:hover .action-badge {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.console-panel {
+  background-color: #111827; /* gray-900 */
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.console-header {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #374151;
+  margin-bottom: 1rem;
+}
+
+.console-content {
+  flex: 1;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.log-entry {
+  color: #4ade80; /* green-400 */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.log-waiting {
+  color: #6b7280;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

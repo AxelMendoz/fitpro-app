@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -11,12 +10,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const pathname = usePathname()
 
+  // AQUÍ AGREGAMOS "NUTRICIÓN" 👇
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: "📊" },
     { href: "/dashboard/routines", label: "Rutinas", icon: "🏋️" },
     { href: "/dashboard/exercises", label: "Ejercicios", icon: "💪" },
+    { href: "/dashboard/Nutrition", label: "Nutrición", icon: "🍏" }, // ¡Nuevo botón!
     { href: "/dashboard/progress", label: "Progreso", icon: "📈" },
     { href: "/dashboard/profile", label: "Perfil", icon: "👤" },
+    { href: "/dashboard/goals", label: "Metas (Observer)", icon: "🎯" },
+    { href: "/dashboard/wearables", label: "Dispositivos (Adapter)", icon: "⌚" },
+    { href: "/dashboard/plans", label: "Planes (Factory)", icon: "🏭" },
+    { href: "/dashboard/architecture", label: "Arquitectura (CQRS)", icon: "🏛️" },
   ]
 
   return (
@@ -31,7 +36,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         <nav className="sidebar-nav">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className={`nav-item ${pathname === item.href ? "active" : ""}`}>
+            <Link 
+              key={item.href} 
+              href={item.href} 
+              className={`nav-item ${pathname === item.href ? "active" : ""}`}
+            >
               <span className="nav-icon">{item.icon}</span>
               {isSidebarOpen && <span className="nav-label">{item.label}</span>}
             </Link>
